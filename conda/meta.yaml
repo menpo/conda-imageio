@@ -22,6 +22,9 @@ requirements:
     - ffmpeg 2.7.*
 
 test:
+  requires:
+    - nose
+
   imports:
     - imageio
 

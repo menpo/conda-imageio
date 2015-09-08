@@ -1,5 +1,6 @@
 import imageio
 import os
+import shutil
 from os.path import join as path_join, exists as path_exists
 
 
@@ -20,7 +21,7 @@ def symlink(fpath, lpath, platform):
     if 'win' not in platform:
         os.symlink(norm_path(fpath), norm_path(lpath))
     else:  # win
-        os.copy(norm_path(fpath), norm_path(lpath))
+        shutil.copy2(norm_path(fpath), norm_path(lpath))
 
 
 def get_conda_lib_path(platform):
@@ -74,9 +75,10 @@ if not path_exists(IMAGEIO_FREEIMAGE_DIR):
 # Remove shipped freeimage
 empty_dir(IMAGEIO_FREEIMAGE_DIR)
 # Softlink conda freeimage
-symlink(path_join(get_conda_lib_path(platform), CONDA_FREEIMAGE_FNAME[platform]), 
-        path_join(IMAGEIO_FREEIMAGE_DIR, FREEIMAGE_FNAME),
-        platform)
+conda_path = path_join(get_conda_lib_path(platform), CONDA_FREEIMAGE_FNAME[platform])
+imageio_path = path_join(IMAGEIO_FREEIMAGE_DIR, FREEIMAGE_FNAME)
+print('(FREEIMAGE): Symlinking {} to {}'.format(conda_path, imageio_path))
+symlink(conda_path, imageio_path, platform)
 
 # FFMPEG
 FFMPEG_FNAME = imageio.plugins.ffmpeg.FNAME_PER_PLATFORM[platform]
@@ -86,8 +88,7 @@ if not path_exists(IMAGEIO_FFMPEG_DIR):
 # Remove shipped ffmpeg
 empty_dir(IMAGEIO_FFMPEG_DIR)
 # Softlink conda ffmpeg
-symlink(path_join(get_conda_bin_path(platform), CONDA_FFMPEG_FNAME[platform]),
-        path_join(IMAGEIO_FFMPEG_DIR, FFMPEG_FNAME),
-        platform)
-
-
+conda_path = path_join(get_conda_bin_path(platform), CONDA_FFMPEG_FNAME[platform])
+imageio_path = path_join(IMAGEIO_FFMPEG_DIR, FFMPEG_FNAME)
+print('(FFMPEG): Symlinking {} to {}'.format(conda_path, imageio_path))
+symlink(conda_path, imageio_path, platform)
