@@ -13,11 +13,13 @@ requirements:
     - numpy
     - setuptools
     - freeimage 3.17.*
+    - ffmpeg 2.7.*
 
   run:
     - python
     - numpy
     - freeimage 3.17.*
+    - ffmpeg 2.7.*
 
 test:
   imports:
