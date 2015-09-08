@@ -12,10 +12,12 @@ requirements:
     - python
     - numpy
     - setuptools
+    - freeimage 3.17.*
 
   run:
     - python
     - numpy
+    - freeimage 3.17.*
 
 test:
   imports:
